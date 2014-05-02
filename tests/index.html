@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Simple Arrival tests</title>
+    <style>
+      body {
+        font-family: Helvetica;
+      }
+      .test {
+        height: 50px;
+        margin: 20px;
+        -webkit-transition-property: all;
+        transition-property: all;
+        width: 100px;
+      }
+      .test-1 {
+        background-color: #f09;
+        -webkit-transition-duration: 100ms;
+        transition-duration: 100ms;
+      }
+      .test-2 {
+        background-color: #fc0;
+        -webkit-transition-duration: 200ms;
+        transition-duration: 200ms;
+      }
+      .test-3 {
+        background-color: #090;
+        -webkit-transition-duration: 1500ms;
+        transition-duration: 1500ms;
+      }
+      .test-4 {
+        background-color: #36c;
+        -webkit-transition-duration: 400ms;
+        transition-duration: 400ms;
+      }
+      .test-5 {
+        background-color: #d34;
+        -webkit-transition-duration: 300ms;
+        transition-duration: 300ms;
+        -webkit-transition-delay: 150ms;
+        transition-delay: 150ms;
+      }
+      .test-6 {
+        background-color: #f03;
+        -webkit-transition-duration: 500ms;
+        transition-duration: 500ms;
+        -webkit-transition-delay: 100ms;
+        transition-delay: 100ms;
+      }
+      .tests-start .test {
+        margin-left: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="all" href="#start">Test all</a>
+    <a class="descendants" href="#start">Test with .descendant only</a>
+    <div class="tests">
+      <div class="test test-1"></div>
+      <div class="test test-2"></div>
+      <div class="test test-3"></div>
+      <div class="test test-4"></div>
+      <div class="test descendant test-5"></div>
+      <div class="test descendant test-6"></div>
+    </div>
+    <div class="result"></div>
+    <script src="http://code.jquery.com/jquery-2.1.0.js"></script>
+    <script src="../arrival.js"></script>
+    <script>
+      var onComplete = function() {
+        console.log("complete!");
+        this.html("Complete!");
+      };
+      var init = function() {
+        var $test = $(".tests"),
+            $result = $(".result");
+        $(".all").on("click", function(e) {
+          e.preventDefault();
+          $result.html("");
+          Arrival.complete($test, onComplete.bind($result));
+          $test.toggleClass("tests-start");
+        });
+
+        $(".descendants").on("click", function(e) {
+          e.preventDefault();
+          $result.html("");
+          Arrival.complete($test, onComplete.bind($result), ".descendant");
+          $test.toggleClass("tests-start");
+        });
+      };
+
+      $(document).ready(init);
+    </script>
+  </body>
+</html>
