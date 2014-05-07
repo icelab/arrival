@@ -1,15 +1,30 @@
-// Arrival 0.0.1
+// Arrival 0.0.2
 // Copyright (c) 2014 Max Wheeler, Icelab
 // Licensed under the MIT license
-;(function(root, factory) {
-  root.Arrival = factory(root, {}, $); // Browser global
-}(this, function(root, Arrival, jQuery) {
+(function(root, factory) {
+
+  // Set up Arrival appropriately for the environment. Start with AMD.
+  if (typeof define === 'function' && define.amd) {
+    define(['jquery', 'exports'], function($, exports) {
+      // Export global even in AMD case in case this script is loaded with
+      // others that may still expect a global Backbone.
+      root.Arrival = factory(root, exports, $);
+    });
+
+  // Next for Node.js or CommonJS. jQuery may not be needed as a module.
+  } else if (typeof exports !== 'undefined') {
+    factory(root, exports);
+  } else {
+
+    // Finally, as a browser global.
+    root.Arrival = factory(root, {}, (root.jQuery || root.$));
+  }
+}(this, function(root, Arrival, $) {
   "use strict";
   var getLongestTransitionElementAndTime, getElementTransitionTime, parseSecondsToMilliseconds;
   // Iterate through descendants to get transition times
-  getLongestTransitionElementAndTime = function(scope, descendantSelector, longestTotal) {
-    var longestTransitionElement,
-      descendants = scope.find(descendantSelector);
+  getLongestTransitionElementAndTime = function(scope, descendantSelector, longestTotal, longestTransitionElement) {
+    var descendants = scope.find(descendantSelector);
     descendants.each(function(i) {
       var descendant = descendants.eq(i),
       total = getElementTransitionTime(descendant);
@@ -21,7 +36,7 @@
     return {
       longestTotal: longestTotal,
       longestTransitionElement: longestTransitionElement
-    }
+    };
   };
   // Find the sum of the transition duration/delay for a given element
   getElementTransitionTime = function(element) {
@@ -46,7 +61,7 @@
     element = $(element);
     descendantSelector = descendantSelector || "*";
     // Find the longest transitionable element/time
-    results = getLongestTransitionElementAndTime(element, descendantSelector, longestTotal);
+    results = getLongestTransitionElementAndTime(element, descendantSelector, longestTotal, longestTransitionElement);
     longestTotal = results.longestTotal;
     longestTransitionElement = results.longestTransitionElement;
     if (typeof longestTransitionElement !== "undefined" && longestTransitionElement !== null) {
