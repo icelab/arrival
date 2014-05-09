@@ -69,23 +69,23 @@
     <script>
       var onComplete = function() {
         console.log("complete!");
-        this.html("Complete!");
+        this.innerHTML = "Complete!";
       };
       var init = function() {
-        var $test = $(".tests"),
-            $result = $(".result");
+        var testEl = document.querySelector(".tests"),
+            resultEl = document.querySelector(".result");
         $(".all").on("click", function(e) {
           e.preventDefault();
-          $result.html("");
-          Arrival.complete($test, onComplete.bind($result));
-          $test.toggleClass("tests-start");
+          resultEl.innerHTML = "";
+          Arrival.complete(testEl, onComplete.bind(resultEl));
+          $(testEl).toggleClass("tests-start");
         });
 
         $(".descendants").on("click", function(e) {
           e.preventDefault();
-          $result.html("");
-          Arrival.complete($test, onComplete.bind($result), ".descendant");
-          $test.toggleClass("tests-start");
+          resultEl.innerHTML = "";
+          Arrival.complete(testEl, onComplete.bind(resultEl), ".descendant");
+          $(testEl).toggleClass("tests-start");
         });
       };
 
