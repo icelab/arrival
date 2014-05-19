@@ -1,12 +1,16 @@
 {
   "name": "arrival",
-  "main": "arrival.js",
-  "version": "0.0.3",
+  "main": "https://github.com/icelab/arrival/dist/arrival.js",
+  "version": "1.0.0",
   "homepage": "https://github.com/icelab/arrival",
   "authors": [
     "Max Wheeler <max@icelab.com.au>"
   ],
   "description": "Know when your elements and their children have transitionended.",
   "license": "MIT",
-  "ignore": ["**/.*","README.md","LICENSE.txt"]
+  "ignore": [
+    "**/.*",
+    "README.md",
+    "LICENSE.txt"
+  ]
 }

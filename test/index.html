@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
   <head>
-    <title>Simple Arrival tests</title>
+    <title>Simple Arrival</title>
     <style>
       body {
         font-family: Helvetica;
+        padding: 50px;
       }
       .test {
         height: 50px;
@@ -50,11 +51,17 @@
       .tests-start .test {
         margin-left: 400px;
       }
+      .result {
+        margin-left: 20px;
+      }
     </style>
   </head>
+
   <body>
     <a class="all" href="#start">Test all</a>
     <a class="descendants" href="#start">Test with .descendant only</a>
+    <span class="result"></span>
+
     <div class="tests">
       <div class="test test-1"></div>
       <div class="test test-2"></div>
@@ -63,33 +70,33 @@
       <div class="test descendant test-5"></div>
       <div class="test descendant test-6"></div>
     </div>
-    <div class="result"></div>
-    <script src="http://code.jquery.com/jquery-2.1.0.js"></script>
-    <script src="../arrival.js"></script>
+
+    <script src="../build/build.js"></script>
     <script>
-      var onComplete = function() {
+      var arrival = require('arrival');
+      var test = document.querySelector('.tests');
+      var result = document.querySelector('.result');
+
+      function onComplete() {
         console.log("complete!");
-        this.innerHTML = "Complete!";
-      };
-      var init = function() {
-        var testEl = document.querySelector(".tests"),
-            resultEl = document.querySelector(".result");
-        $(".all").on("click", function(e) {
-          e.preventDefault();
-          resultEl.innerHTML = "";
-          Arrival.complete(testEl, onComplete.bind(resultEl));
-          $(testEl).toggleClass("tests-start");
-        });
-
-        $(".descendants").on("click", function(e) {
-          e.preventDefault();
-          resultEl.innerHTML = "";
-          Arrival.complete(testEl, onComplete.bind(resultEl), ".descendant");
-          $(testEl).toggleClass("tests-start");
-        });
+        result.innerHTML = "Complete";
       };
 
-      $(document).ready(init);
+      var triggerAll = document.querySelector('.all');
+      triggerAll.addEventListener('click', function(e){
+        e.preventDefault();
+        result.innerHTML = "";
+        arrival(test, onComplete);
+        test.classList.toggle('tests-start');
+      });
+
+      var triggerDecendantsOnly = document.querySelector('.descendants');
+      triggerDecendantsOnly.addEventListener('click', function(e){
+        e.preventDefault();
+        result.innerHTML = "";
+        arrival(test, onComplete, '.descendant');
+        test.classList.toggle('tests-start');
+      });
     </script>
   </body>
 </html>
