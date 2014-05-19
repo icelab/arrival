@@ -9,7 +9,6 @@
   "description": "Know when your elements and their children have transitionended.",
   "license": "MIT",
   "ignore": [
-    "**/.*",
     "README.md",
     "LICENSE.txt"
   ]
