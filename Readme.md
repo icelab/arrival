@@ -6,7 +6,7 @@ A little helper for knowing reliably when CSS transitions have finished.
 
 With [component](https://github.com/component/component):
 ```
-$ component install iceleb/arrival
+$ component install icelab/arrival
 ```
 
 With npm via [browserify](http://browserify.org/):
@@ -16,7 +16,7 @@ $ npm install arrival
 
 With [bower](http://browserify.org/):
 ```
-$ bower install iceleb/arrival
+$ bower install icelab/arrival
 ```
 
 ## Download

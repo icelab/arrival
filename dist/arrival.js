@@ -17,11 +17,11 @@ function ms(str) {
 
 
 /**
- * Take a node and return it's computed transition 
+ * Take a node and return it's computed transition
  * 'duration' and 'delay' style values
- * 
+ *
  * @param  {Element} node
- * @return {Number} 
+ * @return {Number}
  */
 
 function getDuration(node) {
@@ -33,7 +33,7 @@ function getDuration(node) {
 
 /**
  * Return an element with the longest transition duration
- * 
+ *
  * @param  {Element} el
  * @param  {String} child
  * @return {Element} longest
@@ -60,7 +60,7 @@ function getTotalDuration(el, child) {
 
 /**
  * Walk the all or selected children of an element
- * 
+ *
  * @param  {Element}  el
  * @param  {String}  child  [optional]
  * @param  {Function}  process
@@ -94,7 +94,7 @@ function walk(el, child, process, done) {
 /**
  * Expose 'Arrival'
  * Define a target to add an event listener to.
- * 
+ *
  * @param  {Element}  el
  * @param  {Function}  callback
  * @param  {String}  child
