@@ -1,6 +1,6 @@
 {
   "name": "arrival",
-  "main": "https://github.com/icelab/arrival/dist/arrival.js",
+  "main": "dist/arrival.js",
   "version": "1.0.0",
   "homepage": "https://github.com/icelab/arrival",
   "authors": [
