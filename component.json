@@ -10,5 +10,8 @@
   "scripts": [
     "index.js"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "component/transitionend-property": "~0.0.2"
+  }
 }

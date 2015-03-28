@@ -4,6 +4,7 @@
 
 var style = getComputedStyle;
 var slice = [].slice;
+var transitionend = require("transitionend-property");
 
 
 /**
@@ -33,24 +34,27 @@ function getDuration(node) {
 /**
  * Return an element with the longest transition duration
  *
- * @param  {Element} el
- * @param  {String} child
+ * @param  {Element/s} els
+ * @param  {String} childSelector
  * @return {Element} longest
  */
 
-function getTotalDuration(el, child) {
-  child = child || null;
+function getLongestTransitionElement(els, childSelector) {
   var longest;
   var duration = 0;
+  var selectedElements = [].slice.call(els);
 
-  walk(el, child, function(node, next){
+  Array.prototype.forEach.call(els, function findDescendants(node, i) {
+    var descendants = [].slice.call(node.querySelectorAll(childSelector));
+    selectedElements = selectedElements.concat(descendants);
+  });
+
+  Array.prototype.forEach.call(selectedElements, function checkDuration(node) {
     var total = getDuration(node);
-
     if(total > duration) {
       longest = node;
       duration = total;
     }
-    next();
   });
 
   return longest;
@@ -58,57 +62,28 @@ function getTotalDuration(el, child) {
 
 
 /**
- * Walk the all or selected children of an element
- *
- * @param  {Element}  el
- * @param  {String}  child  [optional]
- * @param  {Function}  process
- * @param  {Function}  done
- * @return {Function}
- */
-
-function walk(el, child, process, done) {
-  done = done || function(){};
-  var nodes = [];
-
-  if(child){
-    var children = el.querySelectorAll(child);
-    Array.prototype.forEach.call(children, function(child){
-      nodes.push(child);
-    });
-  }
-  else {
-    nodes = slice.call(el.children);
-  }
-
-  function next(){
-    if(nodes.length === 0) return done();
-    walk(nodes.shift(), null, process, next);
-  }
-
-  process(el, next);
-}
-
-
-/**
  * Expose 'Arrival'
  * Define a target to add an event listener to.
  *
- * @param  {Element}  el
+ * @param  {Element/s}  els
  * @param  {Function}  callback
- * @param  {String}  child
+ * @param  {String}  childSelector
  */
 
-module.exports = function(el, callback, child) {
+module.exports = function(els, callback, childSelector) {
+  childSelector = childSelector || "*";
 
-  // if jQuery object, get the first child
-  if (window.jQuery && el instanceof jQuery) el = el[0];
+  if (els.length) {
+    els = [].slice.call(els);
+  } else {
+    els = [els];
+  }
 
-  var target = getTotalDuration(el, child);
+  var target = getLongestTransitionElement(els, childSelector);
   if(!target) return callback();
 
-  target.addEventListener('transitionend', function end(){
+  target.addEventListener(transitionend, function end(){
     callback();
-    target.removeEventListener('transitionend', end);
+    target.removeEventListener(transitionend, end);
   });
 };
