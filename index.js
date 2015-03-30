@@ -3,7 +3,6 @@
  */
 
 var style = getComputedStyle;
-var slice = [].slice;
 var transitionend = require("transitionend-property");
 
 

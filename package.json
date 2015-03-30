@@ -12,5 +12,15 @@
     "index.js"
   ],
   "author": "Max Wheeler <max@icelab.com.au>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "./node_modules/.bin/component build",
+    "build-standalone": "./node_modules/.bin/component build --standalone arrival -o ./dist -n arrival",
+    "build-standalone-min": "npm run build-standalone && ./node_modules/.bin/uglifyjs ./dist/arrival.js -c -m -o ./dist/arrival.min.js"
+  },
+  "devDependencies": {
+    "component": "^1.1.0",
+    "component-minify": "^1.2.0",
+    "uglify-js": "^2.4.19"
+  }
 }
