@@ -43,10 +43,12 @@ function getDuration(node) {
 function getLongestTransitionElement(els, selector) {
   var longest;
   var duration = 0;
-  var selectedElements = [].slice.call(els);
+  var selectedElements = [];
 
-  selectedElements = selectedElements.map(function(node) {
-    matches(node, selector);
+  [].slice.call(els).forEach(function(node) {
+    if (matches(node, selector)) {
+      selectedElements.push(node);
+    }
   });
 
   Array.prototype.forEach.call(els, function findDescendants(node, i) {
