@@ -4,13 +4,7 @@ A little helper for knowing reliably when CSS transitions have finished.
 
 ## Installation
 
-With [component](https://github.com/component/component):
-
-```
-$ component install icelab/arrival
-```
-
-With npm via [browserify](http://browserify.org/):
+With npm via [browserify](http://browserify.org/) or your package manager of choice:
 
 ```
 $ npm install arrival
@@ -54,7 +48,7 @@ trigger.addEventListener('click', function(e){
 });
 ```
 
-`Arrival` also takes a third argument, a `descendantSelector` that is used to limit the traversal of the `element`s children. This is useful in situations where you _know_ what descendants are going to be the longest.
+`Arrival` also takes a third argument, a `selector` that is used to match against all the passed `element`s and their children. This is useful in situations where you _know_ what elements are going to be the longest.
 
 ```js
 var arrival = require('arrival');
@@ -68,25 +62,21 @@ trigger.addEventListener('click', function(e){
 
 ## Building the example
 
-With [component](https://github.com/component/component):
+There are a couple of build options run through browserify:
 
 ```
-$ component build
+$ npm run build
+$ npm run build-standalone
+$ npm run build-standalone-min
 ```
 
-With [browserify](http://browserify.org/):
-
-```
-$ browserify index.js --s arrival > build/build.js
-```
-
-When using `browserify`, You will also need to remove the line `var arrival = require('arrival');` from the `index.html` file.
+`npm run build-standalone` generates the file used in the example `./test/index.html`.
 
 ## Limitations
 
 * Since there’s no `transitionstart` event, you’ll need to call `arrival` at the same time you trigger the transition.
 * Arrival only looks at `transition` properties, not `animation` properties for now.
-* Arrival will blindly look at _all_ descendants of the passed elements. If you have multi-stage transitions it may find the wrong element to bind to.
+* Arrival will blindly look at _all_ descendants of the passed elements (unless you tell it not to). If you have multi-stage transitions it may find the wrong element to bind to.
 
 ## License
 

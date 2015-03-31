@@ -1,7 +1,11 @@
 {
   "name": "arrival",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Know when your elements and their children have transitionended.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/icelab/arrival.git"
+  },
   "keywords": [
     "transitionended",
     "transitionend",
@@ -14,16 +18,22 @@
   "author": "Max Wheeler <max@icelab.com.au>",
   "license": "MIT",
   "scripts": {
-    "build": "./node_modules/.bin/component build",
-    "build-standalone": "./node_modules/.bin/component build --standalone arrival -o ./dist -n arrival",
-    "build-standalone-min": "npm run build-standalone && ./node_modules/.bin/uglifyjs ./dist/arrival.js -c -m -o ./dist/arrival.min.js"
+    "build": "./node_modules/.bin/browserify index.js > ./build/build.js",
+    "build-standalone": "./node_modules/.bin/browserify index.js --s arrival > ./dist/arrival.js",
+    "build-standalone-min": "./node_modules/.bin/browserify index.js --s arrival | ./node_modules/.bin/uglifyjs -c warnings=false > ./dist/arrival.min.js",
+    "test": "./node_modules/.bin/browserify test/*.js | ./node_modules/.bin/testling | ./node_modules/.bin/tap-spec"
   },
   "devDependencies": {
+    "browserify": "^9.0.3",
     "component": "^1.1.0",
-    "component-minify": "^1.2.0",
+    "tap-spec": "^2.2.2",
+    "tape": "^3.5.0",
+    "testling": "^1.7.1",
     "uglify-js": "^2.4.19"
   },
   "dependencies": {
+    "matches-selector": "^1.0.0",
+    "prefix": "^0.2.1",
     "transitionend-property": "0.0.2"
   }
 }

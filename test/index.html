@@ -10,42 +10,51 @@
       .test {
         height: 50px;
         margin: 20px;
-        -webkit-transition-property: all;
-        transition-property: all;
         width: 100px;
+        -webkit-transition-property: all;
+        -moz-transition-property: all;
+        transition-property: all;
       }
       .test-1 {
         background-color: #f09;
         -webkit-transition-duration: 100ms;
+        -moz-transition-duration: 100ms;
         transition-duration: 100ms;
       }
       .test-2 {
         background-color: #fc0;
         -webkit-transition-duration: 200ms;
+        -moz-transition-duration: 200ms;
         transition-duration: 200ms;
       }
       .test-3 {
         background-color: #090;
         -webkit-transition-duration: 1500ms;
+        -moz-transition-duration: 1500ms;
         transition-duration: 1500ms;
       }
       .test-4 {
         background-color: #36c;
         -webkit-transition-duration: 400ms;
+        -moz-transition-duration: 400ms;
         transition-duration: 400ms;
       }
       .test-5 {
         background-color: #d34;
         -webkit-transition-duration: 300ms;
+        -moz-transition-duration: 300ms;
         transition-duration: 300ms;
         -webkit-transition-delay: 150ms;
+        -moz-transition-delay: 150ms;
         transition-delay: 150ms;
       }
       .test-6 {
         background-color: #f03;
         -webkit-transition-duration: 500ms;
+        -moz-transition-duration: 500ms;
         transition-duration: 500ms;
         -webkit-transition-delay: 100ms;
+        -moz-transition-delay: 100ms;
         transition-delay: 100ms;
       }
       .tests-start .test {
@@ -71,9 +80,8 @@
       <div class="test descendant test-6"></div>
     </div>
 
-    <script src="../build/build.js"></script>
+    <script src="../dist/arrival.js"></script>
     <script>
-      var arrival = require('arrival');
       var test = document.querySelector('.tests');
       var result = document.querySelector('.result');
 

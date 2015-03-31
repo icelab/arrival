@@ -4,7 +4,8 @@
 
 var style = getComputedStyle;
 var transitionend = require("transitionend-property");
-
+var prefix = require("prefix");
+var matches = require('matches-selector');
 
 /**
  * Return a floating point number from a string
@@ -24,8 +25,9 @@ function ms(str) {
  */
 
 function getDuration(node) {
-  var duration = ms(style(node).transitionDuration);
-  var delay = ms(style(node).transitionDelay);
+  var nodeStyle = style(node);
+  var duration = (nodeStyle) ? ms(nodeStyle[prefix("transitionDuration")]) : 0;
+  var delay = (nodeStyle) ? ms(nodeStyle[prefix("transitionDelay")]) : 0;
   return duration + delay;
 }
 
@@ -34,17 +36,21 @@ function getDuration(node) {
  * Return an element with the longest transition duration
  *
  * @param  {Element/s} els
- * @param  {String} childSelector
+ * @param  {String} selector
  * @return {Element} longest
  */
 
-function getLongestTransitionElement(els, childSelector) {
+function getLongestTransitionElement(els, selector) {
   var longest;
   var duration = 0;
   var selectedElements = [].slice.call(els);
 
+  selectedElements = selectedElements.map(function(node) {
+    matches(node, selector);
+  });
+
   Array.prototype.forEach.call(els, function findDescendants(node, i) {
-    var descendants = [].slice.call(node.querySelectorAll(childSelector));
+    var descendants = [].slice.call(node.querySelectorAll(selector));
     selectedElements = selectedElements.concat(descendants);
   });
 
@@ -66,11 +72,11 @@ function getLongestTransitionElement(els, childSelector) {
  *
  * @param  {Element/s}  els
  * @param  {Function}  callback
- * @param  {String}  childSelector
+ * @param  {String}  selector
  */
 
-module.exports = function(els, callback, childSelector) {
-  childSelector = childSelector || "*";
+module.exports = function(els, callback, selector) {
+  selector = selector || "*";
 
   if (els.length) {
     els = [].slice.call(els);
@@ -78,11 +84,11 @@ module.exports = function(els, callback, childSelector) {
     els = [els];
   }
 
-  var target = getLongestTransitionElement(els, childSelector);
+  var target = getLongestTransitionElement(els, selector);
   if(!target) return callback();
 
-  target.addEventListener(transitionend, function end(){
-    callback();
+  target.addEventListener(transitionend, function end() {
     target.removeEventListener(transitionend, end);
+    callback();
   });
 };
