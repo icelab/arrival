@@ -33,14 +33,14 @@ function getDuration(node) {
 
 
 /**
- * Return an element with the longest transition duration
+ * Return the element with the longest transition and its duration
  *
  * @param  {Element/s} els
  * @param  {String} selector
- * @return {Element} longest
+ * @return {Object} {el, duration}
  */
 
-function getLongestTransitionElement(els, selector) {
+function getLongestTransition(els, selector) {
   var longest;
   var duration = 0;
   var selectedElements = [];
@@ -64,7 +64,10 @@ function getLongestTransitionElement(els, selector) {
     }
   });
 
-  return longest;
+  return {
+    element: longest,
+    duration: duration
+  }
 }
 
 
@@ -78,6 +81,7 @@ function getLongestTransitionElement(els, selector) {
  */
 
 module.exports = function(els, callback, selector) {
+  var safety;
   selector = selector || "*";
 
   if (els.length) {
@@ -86,11 +90,20 @@ module.exports = function(els, callback, selector) {
     els = [els];
   }
 
-  var target = getLongestTransitionElement(els, selector);
+  var longestTransition = getLongestTransition(els, selector);
+  var target = longestTransition.element
   if(!target) return callback();
 
-  target.addEventListener(transitionend, function end() {
+  function end() {
+    clearTimeout(safety);
     target.removeEventListener(transitionend, end);
     callback();
-  });
+  }
+
+  target.addEventListener(transitionend, end);
+
+  safety = setTimeout(function() {
+    target.removeEventListener(transitionend, end);
+    callback();
+  }, longestTransition.duration)
 };

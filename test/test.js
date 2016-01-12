@@ -149,3 +149,16 @@ test('It should fire the callback immediately if no targets are found', {timeout
   arrival(document.createElement("div"), callback);
   wrapperElement.className = wrapperElement.className + " tests-start";
 });
+
+test('It should fire the callback based on duration timeout', {timeout: 10000}, function(t) {
+  var start = Date.now();
+  var callback = function() {
+    // 0ms is the longest time for this empty test
+    var difference = Date.now() - start - 0;
+    var metThreshold = (difference < TIMING_THRESHOLD_IN_MILLISECONDS)
+    t.true(metThreshold, "Callback fired within threshold");
+  };
+  setUpHtml();
+  t.plan(1);
+  arrival(document.createElement("div"), callback);
+});
